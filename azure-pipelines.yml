@@ -1,0 +1,28 @@
+pool:
+  name: Hosted Ubuntu 1604
+
+variables:
+    azureSubscriptionEndpoint: CDAYS19
+    azureContainerRegistry: cdays19faceoff.azurecr.io
+
+steps:
+- task: AzureIoTEdge@2
+  displayName: 'Azure IoT Edge - Build module images'
+  name: 'build_images'
+  inputs:
+    defaultPlatform: arm32v7
+
+- task: AzureIoTEdge@2
+  displayName: 'Azure IoT Edge - Push module images'
+  name: 'publish_images'
+  inputs:
+    action: 'Push module images'
+    azureSubscriptionEndpoint: $(azureSubscriptionEndpoint)
+    azureContainerRegistry: $(azureContainerRegistry)
+    defaultPlatform: arm32v7
+
+- task: PublishBuildArtifacts@1
+  displayName: 'Publish Artifact: drop'
+  inputs:
+    PathtoPublish: '$[build_images.DEPLOYMENT_FILE_PATH]'
+
