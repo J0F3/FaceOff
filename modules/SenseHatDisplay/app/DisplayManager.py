@@ -121,7 +121,8 @@ class DisplayManager(object):
         ]
         return logo
 
-    def __init__(self):
+    def __init__(self, sendToHubCallback = None):
+        self.sendToHubCallback = sendToHubCallback
         self.s = SenseHat()
         self.s.low_light = True
         self.__displayImage(self.__raspberry())#Flash the raspberry pi logo at initialization
@@ -133,8 +134,11 @@ class DisplayManager(object):
 
     def displayImage(self, strImage):
         print("Displaying " + strImage)
-        if not 'negativ' in strImage.lower():
+        if 'none' in strImage.lower():
+            self.s.clear()
+        elif not 'negativ' in strImage.lower():
             self.__displayImage(self.__known())
+            self.sendToHubCallback(strImage.lower())
         # if 'apple' in strImage.lower():
         #     self.__displayImage(self.__apple())
         # elif 'raspberry' in strImage.lower():
@@ -145,8 +149,6 @@ class DisplayManager(object):
         #     self.__displayImage(self.__orange())
         # elif 'lemon' in strImage.lower():
         #     self.__displayImage(self.__lemon())
-        elif 'none' in strImage.lower():
-            self.s.clear()
         else:
             self.__displayImage(self.__unknown())
             time.sleep(1)

@@ -102,8 +102,7 @@
         "schemaVersion": "1.0",
         "routes": {
           "CameraCaptureToSenseHatDisplay": "FROM /messages/modules/camera-capture/outputs/output1 INTO BrokeredEndpoint(\"/modules/sensehat-display/inputs/input1\")",
-          "CameraCaptureToIoTHub": "FROM /messages/modules/camera-capture/outputs/output1 INTO $upstream",
-          "CameraCaptureGAToIoTHub": "FROM /messages/modules/CameraCaptureGA/outputs/* INTO $upstream"
+          "SenseHatDisplayToIoTHub": "FROM /messages/modules/sensehat-display/outputs/output1 INTO $upstream"
         },
         "storeAndForwardConfiguration": {
           "timeToLiveSecs": 7200

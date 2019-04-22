@@ -8,7 +8,7 @@ import time
 import sys
 import iothub_client
 # pylint: disable=E0611
-# Disabling linting that is not supported by Pylint for C extensions such as iothub_client. See issue https://github.com/PyCQA/pylint/issues/1955 
+# Disabling linting that is not supported by Pylint for C extensions such as iothub_client. See issue https://github.com/PyCQA/pylint/issues/1955
 from iothub_client import IoTHubModuleClient, IoTHubClientError, IoTHubTransportProvider, IoTHubClientRetryPolicy
 from iothub_client import IoTHubMessage, IoTHubMessageDispositionResult, IoTHubError, DeviceMethodReturnValue
 import DisplayManager
@@ -18,6 +18,7 @@ from MessageParser import MessageParser
 import json
 
 RECEIVE_CALLBACKS = 0
+SEND_CALLBACKS = 0
 
 # receive_message_callback is invoked when an incoming message arrives on the specified  input queue
 def receive_message_callback(message, HubManager):
@@ -35,6 +36,17 @@ def receive_message_callback(message, HubManager):
 
     return IoTHubMessageDispositionResult.ACCEPTED
 
+
+def send_to_Hub_callback(strMessage):
+    message = IoTHubMessage(bytearray(strMessage, 'utf8'))
+    hubManager.send_event_to_output("output1", message, 0)
+
+# Callback received when the message that we're forwarding is processed.
+def send_confirmation_callback(message, result, user_context):
+    global SEND_CALLBACKS
+    SEND_CALLBACKS += 1
+    print("Forwarded message #: " + str(SEND_CALLBACKS))
+
 class HubManager(object):
 
     def __init__(self):
@@ -46,14 +58,13 @@ class HubManager(object):
         self.client.set_option("logtrace", 1)#enables MQTT logging
         self.client.set_option("messageTimeout", 10000)
 
-        # sets the callback when a message arrives on "input1" queue.  Messages sent to 
+        # sets the callback when a message arrives on "input1" queue.  Messages sent to
         # other inputs or to the default will be silently discarded.
         self.client.set_message_callback("input1", receive_message_callback, self)
         print ( "Module is now waiting for messages in the input1 queue.")
 
-        
-
-
+    def send_event_to_output(self, outputQueueName, event, send_context):
+        self.client.send_event_async(outputQueueName, event, send_confirmation_callback, send_context)
 
 def main():
     try:
@@ -61,8 +72,9 @@ def main():
 
         global DISPLAY_MANAGER
         global MESSAGE_PARSER
-        DISPLAY_MANAGER = DisplayManager()
+        DISPLAY_MANAGER = DisplayManager(send_to_Hub_callback)
         MESSAGE_PARSER = MessageParser()
+        global hubManager
         hubManager = HubManager()
 
         while True:
