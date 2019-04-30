@@ -1,0 +1,45 @@
+{
+    "$schema": "http://schema.management.azure.com/schemas/2014-04-01-preview/deploymentTemplate.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {
+        "name": {
+            "type": "String"
+        },
+        "location": {
+            "type": "String"
+        },
+        "sku": {
+            "type": "String"
+        },
+        "sku2": {
+            "type": "String"
+        }
+    },
+    "variables": {
+        "name2": "[concat(take(replace(parameters('name'),'-',''), 18), '_Prediction')]"
+    },
+    "resources": [
+        {
+            "type": "Microsoft.CognitiveServices/accounts",
+            "apiVersion": "2016-02-01-preview",
+            "name": "[variables('name2')]",
+            "location": "[parameters('location')]",
+            "sku": {
+                "name": "[parameters('sku')]"
+            },
+            "kind": "CustomVision.Prediction",
+            "properties": {}
+        },
+        {
+            "type": "Microsoft.CognitiveServices/accounts",
+            "apiVersion": "2016-02-01-preview",
+            "name": "[parameters('name')]",
+            "location": "[parameters('location')]",
+            "sku": {
+                "name": "[parameters('sku2')]"
+            },
+            "kind": "CustomVision.Training",
+            "properties": {}
+        }
+    ]
+}

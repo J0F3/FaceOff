@@ -1,0 +1,21 @@
+{
+    "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentParameters.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {
+        "registryName": {
+            "value": "CDAYS19FaceOff"
+        },
+        "registryLocation": {
+            "value": "westeurope"
+        },
+        "registrySku": {
+            "value": "Basic"
+        },
+        "registryApiVersion": {
+            "value": "2017-10-01"
+        },
+        "adminUserEnabled": {
+            "value": false
+        }
+    }
+}
