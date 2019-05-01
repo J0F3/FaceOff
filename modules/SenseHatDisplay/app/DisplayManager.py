@@ -2,6 +2,8 @@ import sense_hat
 from sense_hat import SenseHat
 import time
 from enum import Enum
+from datetime import datetime
+import json
 
 class Colors(Enum):
     Green = (0, 255, 0)
@@ -138,8 +140,13 @@ class DisplayManager(object):
             self.s.clear()
         elif not 'negativ' in strImage.lower():
             self.__displayImage(self.__known())
-            self.sendToHubCallback(strImage.lower())
-        # if 'apple' in strImage.lower():
+            message = []
+            message.append(
+                {'Person': strImage.lower(), 'Date': str(datetime.now())})
+            message = json.dumps(message)
+            print('Sending IoT message: ', str(message))
+            self.sendToHubCallback(message)
+        # if 'apple' in strImage.lower():strImage.lower()
         #     self.__displayImage(self.__apple())
         # elif 'raspberry' in strImage.lower():
         #     self.__displayImage(self.__raspberry())
