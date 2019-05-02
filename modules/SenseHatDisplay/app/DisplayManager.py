@@ -113,12 +113,12 @@ class DisplayManager(object):
         G = Colors.Green.value
         Y = Colors.Yellow.value
         logo = [
-        N, N, Y, Y, Y, Y, N, G,
+        N, N, Y, Y, Y, Y, N, N,
         N, Y, Y, Y, Y, Y, Y, N,
-        N, Y, N, Y, Y, N, Y, N,
+        Y, Y, N, Y, Y, N, Y, Y,
         Y, Y, Y, Y, Y, Y, Y, Y,
         Y, N, Y, Y, Y, Y, N, Y,
-        N, Y, N, Y, Y, N, Y, N,
+        Y, Y, N, Y, Y, N, Y, Y,
         N, Y, Y, N, N, Y, Y, N,
         N, N, Y, Y, Y, Y, N, N,
         ]
