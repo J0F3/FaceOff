@@ -111,15 +111,16 @@ class DisplayManager(object):
     def __known(self):
         N = Colors.Nothing.value
         G = Colors.Green.value
+        Y = Colors.Yellow.value
         logo = [
-        N, N, N, N, N, N, N, G,
-        N, N, N, N, N, N, G, N,
-        N, N, N, N, N, G, N, N,
-        G, N, N, N, G, N, N, N,
-        N, G, N, G, N, N, N, N,
-        N, N, G, N, N, N, N, N,
-        N, N, N, N, N, N, N, N,
-        N, N, N, N, N, N, N, N,
+        N, N, Y, Y, Y, Y, N, G,
+        N, Y, Y, Y, Y, Y, Y, N,
+        N, Y, N, Y, Y, N, Y, N,
+        Y, Y, Y, Y, Y, Y, Y, Y,
+        Y, N, Y, Y, Y, Y, N, Y,
+        N, Y, N, Y, Y, N, Y, N,
+        N, Y, Y, N, N, Y, Y, N,
+        N, N, Y, Y, Y, Y, N, N,
         ]
         return logo
 
@@ -132,6 +133,7 @@ class DisplayManager(object):
         self.s.clear()
 
     def __displayImage(self, image):
+        self.s.rotation = 270
         self.s.set_pixels(image)
 
     def displayImage(self, strImage):
@@ -140,6 +142,8 @@ class DisplayManager(object):
             self.s.clear()
         elif not 'negativ' in strImage.lower():
             self.__displayImage(self.__known())
+            temp = self.s.get_temperature()
+            print("Temperature: %s C" % temp)
             message = []
             message.append(
                 {'Person': strImage.lower(), 'Date': str(datetime.now())})
