@@ -8,6 +8,8 @@ pool:
 
 variables:
     azureSubscriptionEndpoint: CDAYS19
+    CONTAINER_REGISTRY_ADDRESS: 'cdays19faceoff.azurecr.io'
+    CONTAINER_REGISTRY_USERNAME: 'CDAYS19FaceOff'
     azureContainerRegistry: '{"loginServer":"cdays19faceoff.azurecr.io", "id" : "/subscriptions/831777f5-dce8-4a3e-b6ce-9d405702390a/resourceGroups/CDAYS19/providers/Microsoft.ContainerRegistry/registries/CDAYS19FaceOff"}'
 
 steps:
