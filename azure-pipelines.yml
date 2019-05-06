@@ -28,6 +28,7 @@ steps:
     azureSubscriptionEndpoint: $(azureSubscriptionEndpoint)
     azureContainerRegistry: $(CONTAINER_REGISTRY_ADDRESS)
     defaultPlatform: arm32v7
+  continueOnError: true
 
 - task: PublishBuildArtifacts@1
   displayName: 'Publish Artifact: drop'
