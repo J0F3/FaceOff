@@ -12,6 +12,8 @@ variables:
     CONTAINER_REGISTRY_USERNAME: 'CDAYS19FaceOff'
 
 steps:
+- script: docker run --rm --privileged multiarch/qemu-user-static:register --reset
+
 - task: AzureIoTEdge@2
   displayName: 'Azure IoT Edge - Build module images'
   name: 'build_images'
